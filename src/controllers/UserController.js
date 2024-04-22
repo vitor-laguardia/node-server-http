@@ -10,21 +10,16 @@ module.exports = {
 
       return a.id > b.id ? 1 : -1;
     })
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(sortedUsers));
+    response.send(200, sortedUsers);
   },
 
   getUserById(request, response) {
     const { id } = request.params;
     const user = users.find(user => user.id === Number(id))
-    if(!user) {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ error: 'User not found'}));
-    }
-    else {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify(user));
-    }
 
+    if(!user) 
+      return response.send(400, { error: 'User not found' })
+ 
+    response.send(200, user);
   }
 }
